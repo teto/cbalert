@@ -31,7 +31,14 @@ CBalert::~CBalert()
 
 void CBalert::Alert(CodeBlocksEvent& event)
 {
-    wxBell();
+//    wxBell();
+    //http://docs.wxwidgets.org/trunk/classwx_top_level_window.html#a749d23ea08f6273fb93fe2c003b650b3
+    //(wxFrame*)
+    Manager::Get()->GetLogManager()->Log( _("request user attention") );
+    wxFrame* frame = Manager::Get()->GetAppFrame();
+    frame->RequestUserAttention();
+//    wxWindowList & 	GetChildren ()
+//    WxWindow* FindWindow
 }
 
 
@@ -46,9 +53,9 @@ void CBalert::OnAttach()
     // is FALSE, it means that the application did *not* "load"
     // (see: does not need) this plugin...
     cbEventFunctor<CBalert, CodeBlocksEvent> *functor = new cbEventFunctor<CBalert, CodeBlocksEvent>(this, &CBalert::Alert);
-//Manager::Get()->RegisterEventSink(cbEVT_DEBUGGER_PAUSED, functor);
-//Manager::Get()->RegisterEventSink(cbEVT_DEBUGGER_FINISHED, functor);
-Manager::Get()->RegisterEventSink(cbEVT_COMPILER_FINISHED, functor);
+    //Manager::Get()->RegisterEventSink(cbEVT_DEBUGGER_PAUSED, functor);
+    //Manager::Get()->RegisterEventSink(cbEVT_DEBUGGER_FINISHED, functor);
+    Manager::Get()->RegisterEventSink(cbEVT_COMPILER_FINISHED, functor);
 
 
 
